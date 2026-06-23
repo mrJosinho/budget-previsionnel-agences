@@ -45,13 +45,19 @@ input {
   z-index: 5;
 }
 
-.eyebrow {
-  color: var(--green);
-  font-size: 12px;
-  font-weight: 800;
-  letter-spacing: 0;
-  margin: 0 0 4px;
-  text-transform: uppercase;
+.brand-heading {
+  display: grid;
+  gap: 8px;
+}
+
+.brand-logo {
+  display: block;
+  height: auto;
+  max-height: 46px;
+  max-width: min(320px, 58vw);
+  object-fit: contain;
+  object-position: left center;
+  width: 260px;
 }
 
 h1,
@@ -522,6 +528,11 @@ td input {
 @media (max-width: 640px) {
   .topbar {
     flex-direction: column;
+  }
+
+  .brand-logo {
+    max-width: min(300px, 78vw);
+    width: 230px;
   }
 
   .summary-band {
