@@ -1,0 +1,176 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Prévisionnel par agence</title>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <header class="topbar">
+      <div>
+        <p class="eyebrow">SARL 3LP</p>
+        <h1>Prévisionnel par agence</h1>
+      </div>
+      <div class="toolbar" aria-label="Actions">
+        <button type="button" id="saveScenario" class="command-button" title="Enregistrer le scénario">Sauver</button>
+        <button type="button" id="resetScenario" class="icon-button" title="Réinitialiser">↺</button>
+        <button type="button" id="exportCsv" class="command-button">CSV</button>
+      </div>
+    </header>
+
+    <main>
+      <section class="summary-band" aria-label="Synthèse">
+        <div class="kpi">
+          <span>CA total</span>
+          <strong id="kpiRevenue">0 €</strong>
+        </div>
+        <div class="kpi">
+          <span>Marge brute</span>
+          <strong id="kpiGrossMargin">0 €</strong>
+          <small id="kpiGrossMarginRate">0,0 % du CA</small>
+        </div>
+        <div class="kpi">
+          <span>Résultat avant impôt</span>
+          <strong id="kpiPreTax">0 €</strong>
+        </div>
+        <div class="kpi">
+          <span>Résultat comptable</span>
+          <strong id="kpiNet">0 €</strong>
+        </div>
+      </section>
+
+      <section class="workspace">
+        <aside class="panel assumptions-panel">
+          <div class="panel-heading">
+            <h2>Hypothèses</h2>
+            <span id="scenarioStatus">Scénario courant</span>
+          </div>
+
+          <label class="field">
+            <span>CA global à répartir</span>
+            <input id="globalRevenue" inputmode="decimal" type="number" min="0" step="1000" />
+          </label>
+
+          <div class="split-controls" id="splitControls"></div>
+
+          <div class="target-box">
+            <div class="target-head">
+              <h2>Objectif résultat</h2>
+              <span>Avant impôt / CA</span>
+            </div>
+            <label class="field">
+              <span>Taux visé</span>
+              <input id="targetRate" inputmode="decimal" type="number" min="-100" max="100" step="0.1" />
+            </label>
+            <div class="target-metrics">
+              <div>
+                <span>Taux actuel</span>
+                <strong id="targetCurrentRate">0,0 %</strong>
+              </div>
+              <div>
+                <span>CA à viser</span>
+                <strong id="targetRevenue">-</strong>
+              </div>
+              <div>
+                <span>Taux max modèle</span>
+                <strong id="targetMaxRate">-</strong>
+              </div>
+              <div>
+                <span>+0,1 point</span>
+                <strong id="targetStepImpact">-</strong>
+              </div>
+            </div>
+            <button type="button" id="applyTargetRevenue" class="command-button full-width">Appliquer ce CA</button>
+          </div>
+
+          <label class="privacy-toggle">
+            <input id="dissociatePersonnel" type="checkbox" />
+            <span>Dissocier les frais de personnel</span>
+          </label>
+
+          <div class="rate-grid" id="rateGrid"></div>
+        </aside>
+
+        <section class="main-panel">
+          <div class="panel table-panel">
+            <div class="panel-heading">
+              <h2>Chiffre d'affaires</h2>
+              <span>Montants par agence</span>
+            </div>
+            <div class="table-wrap">
+              <table class="input-table" id="revenueTable">
+                <thead>
+                  <tr>
+                    <th>Agence</th>
+                    <th>Ventes travaux</th>
+                    <th>Produits annexes</th>
+                    <th>Part CA</th>
+                    <th>CA total</th>
+                  </tr>
+                </thead>
+                <tbody></tbody>
+              </table>
+            </div>
+          </div>
+
+          <div class="panel chart-panel">
+            <div class="panel-heading">
+              <h2>Résultat avant impôt</h2>
+              <span id="bestAgency">-</span>
+            </div>
+            <canvas id="resultChart" width="920" height="260"></canvas>
+          </div>
+
+          <div class="panel table-panel">
+            <div class="panel-heading">
+              <h2>Charges comptables</h2>
+              <span>Règles issues du classeur</span>
+            </div>
+            <div class="table-wrap">
+              <table class="input-table" id="chargesTable">
+                <thead>
+                  <tr>
+                    <th>Poste</th>
+                    <th>Règle</th>
+                    <th>Base comptable</th>
+                    <th>Ste Marie</th>
+                    <th>Bourg Achard</th>
+                    <th>Harfleur</th>
+                    <th>Maromme</th>
+                    <th>Total</th>
+                  </tr>
+                </thead>
+                <tbody></tbody>
+              </table>
+            </div>
+          </div>
+
+          <div class="panel table-panel">
+            <div class="panel-heading">
+              <h2>Compte de résultat</h2>
+              <span>Lecture par agence</span>
+            </div>
+            <div class="table-wrap">
+              <table class="result-table" id="resultTable">
+                <thead>
+                  <tr>
+                    <th>Ligne</th>
+                    <th>Ste Marie</th>
+                    <th>Bourg Achard</th>
+                    <th>Harfleur</th>
+                    <th>Maromme</th>
+                    <th>Total</th>
+                  </tr>
+                </thead>
+                <tbody></tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+      </section>
+    </main>
+
+    <script src="./app.js"></script>
+  </body>
+</html>
