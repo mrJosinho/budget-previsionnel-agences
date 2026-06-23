@@ -61,6 +61,10 @@ input {
   width: min(720px, 100%);
 }
 
+.welcome-panel * {
+  min-width: 0;
+}
+
 .welcome-brand img {
   display: block;
   height: auto;
@@ -78,6 +82,7 @@ input {
   font-weight: 700;
   line-height: 1.45;
   margin: 0;
+  overflow-wrap: break-word;
 }
 
 .welcome-grid {
@@ -93,6 +98,7 @@ input {
   display: grid;
   gap: 5px;
   padding: 12px;
+  overflow-wrap: anywhere;
 }
 
 .welcome-grid strong {
@@ -104,6 +110,7 @@ input {
   color: var(--muted);
   font-size: 13px;
   font-weight: 700;
+  overflow-wrap: break-word;
 }
 
 .welcome-check {
@@ -613,16 +620,53 @@ td input {
 }
 
 @media (max-width: 640px) {
+  h1 {
+    font-size: 27px;
+    line-height: 1.12;
+  }
+
+  main {
+    padding: 14px 12px 26px;
+  }
+
   .topbar {
     flex-direction: column;
+    gap: 12px;
+    min-height: auto;
+    padding: 14px 16px;
   }
 
   .welcome-grid {
     grid-template-columns: 1fr;
   }
 
+  .welcome-modal {
+    align-items: flex-start;
+    padding: 10px;
+  }
+
+  .welcome-panel {
+    gap: 11px;
+    max-height: calc(100vh - 20px);
+    max-width: 300px;
+    padding: 16px;
+    width: 300px;
+  }
+
   .welcome-brand img {
     width: 230px;
+  }
+
+  .welcome-panel h2 {
+    font-size: 25px;
+  }
+
+  .welcome-copy {
+    font-size: 14px;
+  }
+
+  .welcome-grid div {
+    padding: 10px;
   }
 
   .brand-logo {
@@ -636,6 +680,10 @@ td input {
 
   .kpi {
     padding: 13px;
+  }
+
+  .chart-panel canvas {
+    height: 210px;
   }
 
   .panel-heading {

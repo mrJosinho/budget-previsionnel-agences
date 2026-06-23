@@ -577,11 +577,11 @@ function drawChart(model) {
   const rect = canvas.getBoundingClientRect();
   const dpr = window.devicePixelRatio || 1;
   canvas.width = Math.max(1, Math.floor(rect.width * dpr));
-  canvas.height = Math.floor(260 * dpr);
+  canvas.height = Math.floor(rect.height * dpr);
   ctx.scale(dpr, dpr);
 
   const width = rect.width;
-  const height = 260;
+  const height = rect.height;
   ctx.clearRect(0, 0, width, height);
 
   const padding = { top: 28, right: 22, bottom: 44, left: 54 };
