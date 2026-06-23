@@ -179,6 +179,9 @@ const ids = {
   targetStepImpact: document.querySelector("#targetStepImpact"),
   applyTargetRevenue: document.querySelector("#applyTargetRevenue"),
   dissociatePersonnel: document.querySelector("#dissociatePersonnel"),
+  welcomeModal: document.querySelector("#welcomeModal"),
+  closeWelcome: document.querySelector("#closeWelcome"),
+  hideWelcomeNextTime: document.querySelector("#hideWelcomeNextTime"),
   bestAgency: document.querySelector("#bestAgency"),
   scenarioStatus: document.querySelector("#scenarioStatus"),
 };
@@ -702,7 +705,26 @@ function bindControls() {
   document.querySelector("#saveScenario").addEventListener("click", saveScenario);
   document.querySelector("#resetScenario").addEventListener("click", resetScenario);
   document.querySelector("#exportCsv").addEventListener("click", exportCsv);
+  ids.closeWelcome.addEventListener("click", closeWelcomeModal);
+  ids.welcomeModal.addEventListener("click", (event) => {
+    if (event.target === ids.welcomeModal) closeWelcomeModal();
+  });
+  document.addEventListener("keydown", (event) => {
+    if (event.key === "Escape" && ids.welcomeModal.classList.contains("open")) closeWelcomeModal();
+  });
   window.addEventListener("resize", () => drawChart(buildResults()));
+}
+
+function showWelcomeModal() {
+  if (localStorage.getItem("budgetAgenceHideWelcome") === "true") return;
+  ids.welcomeModal.classList.add("open");
+}
+
+function closeWelcomeModal() {
+  if (ids.hideWelcomeNextTime.checked) {
+    localStorage.setItem("budgetAgenceHideWelcome", "true");
+  }
+  ids.welcomeModal.classList.remove("open");
 }
 
 function boot() {
@@ -718,3 +740,4 @@ function boot() {
 loadScenario();
 bindControls();
 boot();
+showWelcomeModal();

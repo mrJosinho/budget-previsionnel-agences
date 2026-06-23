@@ -7,6 +7,41 @@
     <link rel="stylesheet" href="./styles.css" />
   </head>
   <body>
+    <div class="welcome-modal" id="welcomeModal" role="dialog" aria-modal="true" aria-labelledby="welcomeTitle">
+      <div class="welcome-panel">
+        <div class="welcome-brand">
+          <img src="./assets/logo-eco-habitat.svg" alt="Eco Habitat" />
+        </div>
+        <h2 id="welcomeTitle">Prévisionnel par agence</h2>
+        <p class="welcome-copy">
+          Cet outil permet de tester une répartition du chiffre d'affaires par agence et de visualiser immédiatement l'impact sur les marges, les charges et le résultat.
+        </p>
+        <div class="welcome-grid">
+          <div>
+            <strong>Répartition CA</strong>
+            <span>Saisie du CA global ou par agence, avec recalcul des clés.</span>
+          </div>
+          <div>
+            <strong>Charges comptables</strong>
+            <span>Charges variables selon le CA et postes affectés conservés par agence.</span>
+          </div>
+          <div>
+            <strong>Objectif résultat</strong>
+            <span>Calcul du CA à viser selon un taux de résultat avant impôt.</span>
+          </div>
+          <div>
+            <strong>Lecture rapide</strong>
+            <span>Synthèse, graphique, marges, résultat et export CSV.</span>
+          </div>
+        </div>
+        <label class="welcome-check">
+          <input id="hideWelcomeNextTime" type="checkbox" />
+          <span>Ne plus afficher ce message</span>
+        </label>
+        <button type="button" id="closeWelcome" class="command-button full-width">Entrer dans l'outil</button>
+      </div>
+    </div>
+
     <header class="topbar">
       <div class="brand-heading">
         <img class="brand-logo" src="./assets/logo-eco-habitat.svg" alt="Eco Habitat" />
