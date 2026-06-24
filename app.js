@@ -136,7 +136,7 @@ const state = {
     travaux: [...baseRevenue.travaux],
     annexes: [...baseRevenue.annexes],
   },
-  split: [50, 16.67, 16.67, 16.66],
+  split: [25, 25, 25, 25],
   targetRate: 7,
   dissociatePersonnel: false,
   lines: Object.fromEntries(
@@ -654,7 +654,7 @@ function loadScenario() {
 function resetScenario() {
   localStorage.removeItem("budgetAgenceScenario");
   state.revenue = { travaux: [...baseRevenue.travaux], annexes: [...baseRevenue.annexes] };
-  state.split = [50, 16.67, 16.67, 16.66];
+  state.split = [25, 25, 25, 25];
   state.targetRate = 7;
   state.dissociatePersonnel = false;
   state.lines = Object.fromEntries(
