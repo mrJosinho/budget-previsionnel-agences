@@ -130,13 +130,16 @@ const accountingLines = [
   ...taxLines,
 ];
 
+const defaultSplit = [25, 25, 25, 25];
+const legacyDefaultSplit = [50, 16.67, 16.67, 16.66];
+
 const state = {
   schemaVersion: 3,
   revenue: {
     travaux: [...baseRevenue.travaux],
     annexes: [...baseRevenue.annexes],
   },
-  split: [25, 25, 25, 25],
+  split: [...defaultSplit],
   targetRate: 7,
   dissociatePersonnel: false,
   lines: Object.fromEntries(
@@ -188,6 +191,14 @@ const ids = {
 
 function sum(values) {
   return values.reduce((total, value) => total + Number(value || 0), 0);
+}
+
+function isSameSplit(current, expected) {
+  return (
+    Array.isArray(current) &&
+    current.length === expected.length &&
+    current.every((value, index) => Math.abs(Number(value) - expected[index]) < 0.01)
+  );
 }
 
 function fmt(value) {
@@ -640,11 +651,14 @@ function loadScenario() {
 
   try {
     const parsed = JSON.parse(saved);
-    if (parsed.schemaVersion !== 2) {
+    if (parsed.schemaVersion !== 3) {
       localStorage.removeItem("budgetAgenceScenario");
       return;
     }
     Object.assign(state, parsed);
+    if (isSameSplit(state.split, legacyDefaultSplit)) {
+      state.split = [...defaultSplit];
+    }
     ids.scenarioStatus.textContent = "Scénario chargé";
   } catch {
     localStorage.removeItem("budgetAgenceScenario");
@@ -654,7 +668,7 @@ function loadScenario() {
 function resetScenario() {
   localStorage.removeItem("budgetAgenceScenario");
   state.revenue = { travaux: [...baseRevenue.travaux], annexes: [...baseRevenue.annexes] };
-  state.split = [25, 25, 25, 25];
+  state.split = [...defaultSplit];
   state.targetRate = 7;
   state.dissociatePersonnel = false;
   state.lines = Object.fromEntries(
