@@ -150,6 +150,9 @@ const state = {
   ),
 };
 
+let shouldApplyOpeningSplit = true;
+const openChargeSections = new Set();
+
 const money = new Intl.NumberFormat("fr-FR", {
   style: "currency",
   currency: "EUR",
@@ -403,7 +406,9 @@ function renderChargesTable(model) {
   ];
 
   const sectionsHtml = renderedSections
-    .map((section) => {
+    .map((section, sectionIndex) => {
+      const sectionKey = String(sectionIndex);
+      const isOpen = openChargeSections.has(sectionKey);
       const normalizedLines = section.lines.map(normalizeLine);
       const displayLines =
         section.label === "Salaires et charges sociales"
@@ -471,20 +476,44 @@ function renderChargesTable(model) {
 
       const sectionTotals = agencies.map((_, index) => sum(rows.map((line) => lineValues(line, keys, model.revenueScale)[index])));
       return `
-        <tr class="section-row"><td colspan="8">${section.label}</td></tr>
-        ${displayRows}
-        <tr class="charges-table-total">
-          <td>Sous-total ${section.label}</td>
-          <td></td>
-          <td>${fmtSigned(sum(sectionTotals))}</td>
-          ${sectionTotals.map((value) => `<td>${fmtSigned(value)}</td>`).join("")}
-          <td>${fmtSigned(sum(sectionTotals))}</td>
+        <tr class="section-row ${isOpen ? "is-open" : ""}">
+          <td colspan="8">
+            <button type="button" class="charge-section-toggle" data-charge-section="${sectionKey}" aria-expanded="${isOpen}">
+              <span>${section.label}</span>
+              <strong>${fmtSigned(sum(sectionTotals))}</strong>
+            </button>
+          </td>
         </tr>
+        ${
+          isOpen
+            ? `
+              ${displayRows}
+              <tr class="charges-table-total">
+                <td>Sous-total ${section.label}</td>
+                <td></td>
+                <td>${fmtSigned(sum(sectionTotals))}</td>
+                ${sectionTotals.map((value) => `<td>${fmtSigned(value)}</td>`).join("")}
+                <td>${fmtSigned(sum(sectionTotals))}</td>
+              </tr>
+            `
+            : ""
+        }
       `;
     })
     .join("");
 
   ids.chargesBody.innerHTML = sectionsHtml;
+  ids.chargesBody.querySelectorAll("[data-charge-section]").forEach((button) => {
+    button.addEventListener("click", () => {
+      const key = button.dataset.chargeSection;
+      if (openChargeSections.has(key)) {
+        openChargeSections.delete(key);
+      } else {
+        openChargeSections.add(key);
+      }
+      renderChargesTable(buildResults());
+    });
+  });
   ids.chargesBody.querySelectorAll("[data-line-total]").forEach((input) => {
     input.addEventListener("input", () => {
       state.lines[input.dataset.lineTotal].total = Number(input.value || 0);
@@ -656,8 +685,10 @@ function loadScenario() {
       return;
     }
     Object.assign(state, parsed);
+    shouldApplyOpeningSplit = false;
     if (isSameSplit(state.split, legacyDefaultSplit)) {
       state.split = [...defaultSplit];
+      shouldApplyOpeningSplit = true;
     }
     ids.scenarioStatus.textContent = "Scénario chargé";
   } catch {
@@ -669,6 +700,7 @@ function resetScenario() {
   localStorage.removeItem("budgetAgenceScenario");
   state.revenue = { travaux: [...baseRevenue.travaux], annexes: [...baseRevenue.annexes] };
   state.split = [...defaultSplit];
+  shouldApplyOpeningSplit = true;
   state.targetRate = 7;
   state.dissociatePersonnel = false;
   state.lines = Object.fromEntries(
@@ -749,9 +781,13 @@ function boot() {
   ids.dissociatePersonnel.checked = Boolean(state.dissociatePersonnel);
   renderSplitControls();
   renderAccountingSummary();
-  renderRevenueInputs();
   syncGlobalRevenue();
-  recalc();
+  if (shouldApplyOpeningSplit) {
+    applyGlobalSplit();
+  } else {
+    renderRevenueInputs();
+    recalc();
+  }
 }
 
 loadScenario();
