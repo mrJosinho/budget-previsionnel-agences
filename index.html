@@ -54,8 +54,16 @@
       </div>
     </header>
 
+    <nav class="mobile-section-nav" aria-label="Navigation mobile">
+      <a href="#synthese">Synthèse</a>
+      <a href="#hypotheses">Hypothèses</a>
+      <a href="#ca">CA</a>
+      <a href="#resultat">Résultat</a>
+      <a href="#charges">Charges</a>
+    </nav>
+
     <main>
-      <section class="summary-band" aria-label="Synthèse">
+      <section class="summary-band" id="synthese" aria-label="Synthèse">
         <div class="kpi">
           <span>CA total</span>
           <strong id="kpiRevenue">0 €</strong>
@@ -76,7 +84,7 @@
       </section>
 
       <section class="workspace">
-        <aside class="panel assumptions-panel">
+        <aside class="panel assumptions-panel" id="hypotheses">
           <div class="panel-heading">
             <h2>Hypothèses</h2>
             <span id="scenarioStatus">Scénario courant</span>
@@ -138,7 +146,7 @@
         </aside>
 
         <section class="main-panel">
-          <div class="panel table-panel">
+          <div class="panel table-panel" id="ca">
             <div class="panel-heading">
               <h2>Chiffre d'affaires</h2>
               <span>Montants par agence</span>
@@ -159,7 +167,7 @@
             </div>
           </div>
 
-          <div class="panel chart-panel">
+          <div class="panel chart-panel" id="resultat">
             <div class="panel-heading">
               <h2>Résultat avant impôt</h2>
               <span id="bestAgency">-</span>
@@ -167,7 +175,7 @@
             <canvas id="resultChart" width="920" height="260"></canvas>
           </div>
 
-          <div class="panel table-panel">
+          <div class="panel table-panel" id="charges">
             <div class="panel-heading">
               <h2>Charges comptables</h2>
               <span>Règles issues du classeur</span>
@@ -191,7 +199,7 @@
             </div>
           </div>
 
-          <div class="panel table-panel">
+          <div class="panel table-panel" id="compte">
             <div class="panel-heading">
               <h2>Compte de résultat</h2>
               <span>Lecture par agence</span>
@@ -216,6 +224,6 @@
       </section>
     </main>
 
-    <script src="./app.js?v=20260624-accordeons"></script>
+    <script src="./app.js?v=20260624-mobile"></script>
   </body>
 </html>
