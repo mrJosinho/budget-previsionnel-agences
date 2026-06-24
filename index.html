@@ -84,40 +84,50 @@
 
           <label class="field">
             <span>CA global à répartir</span>
-            <input id="globalRevenue" inputmode="decimal" type="number" min="0" step="1000" />
+            <div class="input-unit">
+              <input id="globalRevenue" inputmode="decimal" type="number" min="0" step="1000" />
+              <span>€</span>
+            </div>
           </label>
 
           <div class="split-controls" id="splitControls"></div>
 
-          <div class="target-box">
-            <div class="target-head">
-              <h2>Objectif résultat</h2>
-              <span>Avant impôt / CA</span>
+          <details class="target-box">
+            <summary class="target-summary">
+              <span>
+                <strong>Objectif résultat</strong>
+                <small>Optionnel · avant impôt / CA</small>
+              </span>
+            </summary>
+            <div class="target-content">
+              <label class="field">
+                <span>Taux visé</span>
+                <div class="input-unit">
+                  <input id="targetRate" inputmode="decimal" type="number" min="-100" max="100" step="0.1" />
+                  <span>%</span>
+                </div>
+              </label>
+              <div class="target-metrics">
+                <div>
+                  <span>Taux actuel</span>
+                  <strong id="targetCurrentRate">0,0 %</strong>
+                </div>
+                <div>
+                  <span>CA à viser</span>
+                  <strong id="targetRevenue">-</strong>
+                </div>
+                <div>
+                  <span>Taux max modèle</span>
+                  <strong id="targetMaxRate">-</strong>
+                </div>
+                <div>
+                  <span>+0,1 point</span>
+                  <strong id="targetStepImpact">-</strong>
+                </div>
+              </div>
+              <button type="button" id="applyTargetRevenue" class="command-button full-width">Appliquer ce CA</button>
             </div>
-            <label class="field">
-              <span>Taux visé</span>
-              <input id="targetRate" inputmode="decimal" type="number" min="-100" max="100" step="0.1" />
-            </label>
-            <div class="target-metrics">
-              <div>
-                <span>Taux actuel</span>
-                <strong id="targetCurrentRate">0,0 %</strong>
-              </div>
-              <div>
-                <span>CA à viser</span>
-                <strong id="targetRevenue">-</strong>
-              </div>
-              <div>
-                <span>Taux max modèle</span>
-                <strong id="targetMaxRate">-</strong>
-              </div>
-              <div>
-                <span>+0,1 point</span>
-                <strong id="targetStepImpact">-</strong>
-              </div>
-            </div>
-            <button type="button" id="applyTargetRevenue" class="command-button full-width">Appliquer ce CA</button>
-          </div>
+          </details>
 
           <label class="privacy-toggle">
             <input id="dissociatePersonnel" type="checkbox" />

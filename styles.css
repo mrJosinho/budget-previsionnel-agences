@@ -328,6 +328,26 @@ input:focus {
   outline: none;
 }
 
+.input-unit {
+  align-items: center;
+  display: flex;
+  position: relative;
+  width: 100%;
+}
+
+.input-unit input {
+  padding-right: 34px;
+}
+
+.input-unit span {
+  color: var(--muted);
+  font-size: 13px;
+  font-weight: 900;
+  pointer-events: none;
+  position: absolute;
+  right: 11px;
+}
+
 .split-controls,
 .rate-grid {
   display: grid;
@@ -346,6 +366,57 @@ input:focus {
 .target-box {
   border: 1px solid var(--line);
   border-radius: 8px;
+  overflow: hidden;
+}
+
+.target-summary {
+  align-items: center;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  list-style: none;
+  padding: 12px;
+}
+
+.target-summary::-webkit-details-marker {
+  display: none;
+}
+
+.target-summary::after {
+  color: var(--muted);
+  content: "›";
+  font-size: 24px;
+  font-weight: 800;
+  line-height: 1;
+  transform: rotate(90deg);
+  transition: transform 0.16s ease;
+}
+
+.target-box[open] .target-summary {
+  border-bottom: 1px solid var(--line);
+}
+
+.target-box[open] .target-summary::after {
+  transform: rotate(-90deg);
+}
+
+.target-summary strong {
+  color: var(--ink);
+  display: block;
+  font-size: 15px;
+  line-height: 1.2;
+}
+
+.target-summary small {
+  color: var(--muted);
+  display: block;
+  font-size: 12px;
+  font-weight: 800;
+  line-height: 1.35;
+  margin-top: 3px;
+}
+
+.target-content {
   display: grid;
   gap: 12px;
   padding: 12px;
@@ -371,18 +442,6 @@ input:focus {
   width: 18px;
 }
 
-.target-head {
-  align-items: baseline;
-  display: flex;
-  gap: 8px;
-  justify-content: space-between;
-}
-
-.target-head h2 {
-  font-size: 15px;
-}
-
-.target-head span,
 .target-metrics span {
   color: var(--muted);
   font-size: 12px;
@@ -700,6 +759,7 @@ td input {
   }
 
   .assumptions-panel input,
+  .assumptions-panel .input-unit,
   .assumptions-panel .segmented,
   .target-box,
   .privacy-toggle {

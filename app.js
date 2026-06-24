@@ -288,7 +288,10 @@ function renderSplitControls() {
       (agency, index) => `
         <div class="split-row">
           <label for="split-${agency.key}">${agency.name}</label>
-          <input id="split-${agency.key}" data-split-index="${index}" type="number" min="0" max="100" step="0.01" value="${state.split[index].toFixed(2)}" />
+          <div class="input-unit compact">
+            <input id="split-${agency.key}" data-split-index="${index}" type="number" min="0" max="100" step="0.01" value="${state.split[index].toFixed(2)}" />
+            <span>%</span>
+          </div>
         </div>
       `,
     )
